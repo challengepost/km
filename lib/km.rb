@@ -207,10 +207,6 @@ class KM
     end
 
     def send_query(line)
-      if @env != 'production'
-        log_sent(line)
-        return
-      end
       host,port = @host.split(':')
       begin
         sock = TCPSocket.open(host,port)
