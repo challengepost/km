@@ -223,7 +223,14 @@ class KM
 
     def log_dir_writable?
       if not FileTest.writable? @log_dir
-        $stderr.puts("Could't open #{log_name(:query)} for writing. Does #{@log_dir} exist? Permissions?") if @to_stderr
+        begin
+          unless File.directory?(@log_dir)
+            FileUtils.mkdir_p(@log_dir)
+            $stderr.puts("#{@log_dir} has been created") if @to_stderr  
+          end
+        rescue
+          $stderr.puts("Could't create #{@log_dir}. Please check the permissions?") if @to_stderr  
+        end
       end
     end
 
