@@ -4,7 +4,6 @@ require 'fileutils'
 require 'km/saas'
 
 class KMError < StandardError; end
-module KMSend; PATH="#{File.expand_path(File.join(__FILE__, "../../bin/km_send"))}" end
 
 class KM
   @id        = nil
