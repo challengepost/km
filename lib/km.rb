@@ -226,12 +226,15 @@ class KM
         begin
           unless File.directory?(@log_dir)
             FileUtils.mkdir_p(@log_dir)
-            $stderr.puts("#{@log_dir} has been created") if @to_stderr  
+            $stderr.puts("#{@log_dir} has been created") if @to_stderr
           end
+          true
         rescue
           $stderr.puts("Could't create #{@log_dir}. Please check the permissions?") if @to_stderr  
+          false
         end
       end
+      true
     end
 
     def is_identified?

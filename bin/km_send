@@ -2,12 +2,28 @@
 require 'km'
 
 env = 'production'
+key = nil
+log_dir = nil
+host = nil
+
 begin
   parser = OptionParser.new()
   parser.banner = "#{File.basename($0)} [<log_dir>]\n\n"
   parser.on("-e", "--env ENVIRONMENT", "The environment to run in. Default: production") do |e|
     puts "Note, only production will actually send queries to the kissmetrics servers."
     env = e
+  end
+
+  parser.on('-k', '--key KEY', "The API key.") do |k|
+    key = k
+  end
+  
+  parser.on('-o', '--host HOST', "The host.") do |h|
+    host = h
+  end
+
+  parser.on('-l', '--log-dir LOGDIR', "Directory that contains the logs") do |l|
+    log_dir = l
   end
 
   parser.on_tail("-h", "--help", "This help.") do
@@ -22,5 +38,5 @@ rescue => e
   exit(-1)
 end
 
-KM.init('', :log_dir => opts[0] || KM.log_dir, :host => opts[1] || KM.host, :env => env)
+KM.init(key, :log_dir => log_dir || KM.log_dir, :host => host || KM.host, :env => env)
 KM.send_logged_queries
